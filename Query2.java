@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 public class Query2 {
   private String normalQuery, heuristicsQuery, indexQuery, storedProcedureQuery;
-    private ArrayList<String> viewQuery = new ArrayList<String>();
+    private ArrayList<String> execQuery = new ArrayList<String>();
     private String append;
     
     public Query2(int c1,int c2, int c3,int c4, int c5 , int c6, int c7, int c8,  int c9, int c10, int c11, int v1, int v2, int v3, int v4, int v5, int v6, int v7, int v8,int v9, int v10, int v11){
@@ -23,23 +23,19 @@ public class Query2 {
     }
     
     public void NormalQuery(int c1,int c2, int c3,int c4, int c5 , int c6, int c7, int c8,  int c9, int c10, int c11, int v1, int v2, int v3, int v4, int v5, int v6, int v7, int v8,int v9, int v10, int v11){
-        normalQuery = "SELECT zone, sum(prog_slp) as 'Sustainable Life Program', sum(prog_fudforsch) as 'Food for School', sum(prog_fudforwrk) as 'Food for Work', sum(prog_cshforwrk) as 'Cash for Work', sum(prog_spisc) as 'Social Pension' \n" +
-                        ", sum(prog_cct) as '4Ps', sum(prog_arcdp) as 'ARCSP', sum(prog_cbep) as 'CBEP', sum(prog_phiheal_ofw) as 'PhilHealth OFW', sum(prog_phiheal_empl) as 'Philhealth Employed', sum(prog_phiheal_indiv) as 'Philhealth Individual' \n" +
-                        ", sum(prog_phiheal_spon) as 'Philhealth Sponsored', sum(prog_phiheal_life) as 'Philhealth Life' \n" +
+        normalQuery = "SELECT zone, sum(prog_slp), sum(prog_fudforsch), sum(prog_fudforwrk), sum(prog_cshforwrk), sum(prog_spisc)\n" +
+                        ", sum(prog_cct), sum(prog_arcdp), sum(prog_cbep), sum(prog_phiheal_ofw), sum(prog_phiheal_empl), sum(prog_phiheal_indiv)\n" +
+                        ", sum(prog_phiheal_spon), sum(prog_phiheal_life)\n" +
                         "FROM hpq_hh\n" +"GROUP BY zone\n" +"HAVING zone IS NOT NULL";
                       
-        if(c1 == 1) normalQuery +=" AND sum(calam1_hwmny) > "+ v1;
-        if(c2 == 1) normalQuery +=" AND sum(calam2_hwmny) > "+ v2;
-        if(c3 == 1) normalQuery +=" AND sum(calam3_hwmny) > "+ v3;
+        if(c1 == 1) normalQuery +=" AND sum(calam1_hwmny) > "+ v1;if(c9 == 1) normalQuery +=" AND sum(calam9_hwmny) > "+ v9;
+        if(c2 == 1) normalQuery +=" AND sum(calam2_hwmny) > "+ v2;if(c10 == 1) normalQuery +=" AND sum(calam10_hwmny) > "+ v10;
+        if(c3 == 1) normalQuery +=" AND sum(calam3_hwmny) > "+ v3;if(c11 == 1) normalQuery +=" AND sum(calam11_hwmny) > "+ v11;
         if(c4 == 1) normalQuery +=" AND sum(calam4_hwmny) > "+ v4;
         if(c5 == 1) normalQuery +=" AND sum(calam5_hwmny) > "+ v5;
         if(c6 == 1) normalQuery +=" AND sum(calam6_hwmny) > "+ v6;
         if(c7 == 1) normalQuery +=" AND sum(calam7_hwmny) > "+ v7;
         if(c8 == 1) normalQuery +=" AND sum(calam8_hwmny) > "+ v8;
-        if(c9 == 1) normalQuery +=" AND sum(calam9_hwmny) > "+ v9;
-        if(c10 == 1) normalQuery +=" AND sum(calam10_hwmny) > "+ v10;
-        if(c11 == 1) normalQuery +=" AND sum(calam11_hwmny) > "+ v11;
-        
     }                                                          
 
     public void HeuristicsQuery(int c1,int c2, int c3,int c4, int c5 , int c6, int c7, int c8,  int c9, int c10, int c11, int v1, int v2, int v3, int v4, int v5, int v6, int v7, int v8,int v9, int v10, int v11) {
@@ -49,45 +45,42 @@ public class Query2 {
     }
 
     public void ViewsQuery(int c1,int c2, int c3,int c4, int c5 , int c6, int c7, int c8,  int c9, int c10, int c11, int v1, int v2, int v3, int v4, int v5, int v6, int v7, int v8,int v9, int v10, int v11) {
-        /*String create, create2 , create3, query, drop1, drop2, drop3;
+        String create, create2, query, drop1, drop2;
         
-        create = "CREATE VIEW mview AS\n" +"SELECT id, memno,occup\n" +"FROM hpq_mem\n" +"WHERE (occup LIKE '%fish%' OR occup LIKE '%isda%');";
-        create2 = "CREATE VIEW hview AS \n" +"SELECT m.id, m.memno, h.naquani, h.naquaequip\n" +"FROM mview m, hpq_hh h\n" +"WHERE m.id = h.id AND h.naquaequip >=1 AND h.naquani >=2 ";
-            if(af1 == 1) create2 +=" AND h.fishpond = 1";
-            if(af2 == 1) create2 +=" AND h.fishpen = 1";
-            if(af3 == 1) create2 +=" AND h.fishcage = 1";
-            if(af4 == 1) create2 +=" AND h.seaweedfarm = 1";
-            if(af5 == 1) create2 +=" AND h.oysterfarm = 1";
-            if(af6 == 1) create2 +=" AND h.musselfarm = 1";
-            if(af7 == 1) create2 +=" AND h.fishtank = 1";
-            if(af8 == 1) create2 +=" AND h.hatchery = 1";
-            if(af9 == 1) create2 +=" AND h.aquafarm_o = 1";
-        create2 += ";\n";
-        create3 = "CREATE VIEW aview AS\n" +"SELECT hpq_hh_id, aquaequiptype, aquaequiptype_o\n" +"FROM hpq_aquaequip\n" +"WHERE aquaequiptype_own = 1";
-            if(ae1 == 1) create3 +=" AND aquaequiptype = 1";
-            if(ae2 == 1) create3 +=" AND aquaequiptype = 2";
-            if(ae3 == 1) create3 +=" AND aquaequiptype = 3";
-            if(ae4 == 1) create3 +=" AND aquaequiptype = 4";
-            if(ae5 == 1) create3 +=" AND aquaequiptype = 5";
-            if(ae6 == 1) create3 +=" AND aquaequiptype = 6";
-            if(ae7 == 1) create3 +=" AND aquaequiptype = 7";
-            if(ae8 == 1) create3 +=" AND aquaequiptype = 8";
-        query =  "\nSELECT h.id, h.memno, h.naquani, h.naquaequip, a.aquaequiptype, a.aquaequiptype_o\n" +
-                 "FROM hview h, aview a\n" +
-                 "WHERE a.hpq_hh_id = h.id\n" +
-                 "GROUP BY h.id, a.aquaequiptype, a.aquaequiptype_o;";
+        create = "CREATE VIEW progview AS\n" +
+                "SELECT id, zone, prog_slp, prog_fudforsch, prog_fudforwrk, prog_cshforwrk, prog_spisc, prog_cct, prog_arcdp, prog_cbep,\n" +
+                "		prog_phiheal_ofw, prog_phiheal_empl, prog_phiheal_indiv, prog_phiheal_spon, prog_phiheal_life \n" +
+                "FROM hpq_hh;";
+        create2 = "CREATE VIEW calamview AS\n" +
+                "SELECT h.zone, h.calam1_hwmny, h.calam2_hwmny, h.calam3_hwmny, h.calam4_hwmny, h.calam5_hwmny, h.calam6_hwmny,\n" +
+                "		h.calam7_hwmny, h.calam8_hwmny, h.calam9_hwmny, h.calam10_hwmny, h.calam11_hwmny, p.prog_slp, p.prog_fudforsch, \n" +
+                "        p.prog_fudforwrk, p.prog_cshforwrk, p.prog_spisc, p.prog_cct, p.prog_arcdp, p.prog_cbep,\n" +
+                "		p.prog_phiheal_ofw, p.prog_phiheal_empl, p.prog_phiheal_indiv, p.prog_phiheal_spon, p.prog_phiheal_life\n" +
+                "FROM hpq_hh h, progview p\n" +
+                "WHERE  h.id = p.id;";
+        query="SELECT c.zone, sum(c.prog_slp), sum(c.prog_fudforsch), sum(c.prog_fudforwrk), sum(c.prog_cshforwrk), sum(c.prog_spisc)\n" +
+                ", sum(c.prog_cct), sum(c.prog_arcdp), sum(c.prog_cbep), sum(c.prog_phiheal_ofw), sum(c.prog_phiheal_empl), sum(c.prog_phiheal_indiv)\n" +
+                ", sum(c.prog_phiheal_spon), sum(c.prog_phiheal_life)\n" +
+                "FROM calamview c\n" +
+                "GROUP BY c.zone\n" +
+                "HAVING c.zone IS NOT NULL";
+        if(c1 == 1) query +=" AND sum(calam1_hwmny) > "+ v1;if(c9 == 1) query +=" AND sum(calam9_hwmny) > "+ v9;
+        if(c2 == 1) query +=" AND sum(calam2_hwmny) > "+ v2;if(c10 == 1) query +=" AND sum(calam10_hwmny) > "+ v10;
+        if(c3 == 1) query +=" AND sum(calam3_hwmny) > "+ v3;if(c11 == 1) query +=" AND sum(calam11_hwmny) > "+ v11;
+        if(c4 == 1) query +=" AND sum(calam4_hwmny) > "+ v4;
+        if(c5 == 1) query +=" AND sum(calam5_hwmny) > "+ v5;
+        if(c6 == 1) query +=" AND sum(calam6_hwmny) > "+ v6;
+        if(c7 == 1) query +=" AND sum(calam7_hwmny) > "+ v7;
+        if(c8 == 1) query +=" AND sum(calam8_hwmny) > "+ v8;
         
-        drop1 = "DROP VIEW hview;\n";
-        drop2 = "DROP VIEW mview;\n";
-        drop3 = "DROP VIEW aview;\n";
+        drop1 = "DROP VIEW calamview;\n";
+        drop2 = "DROP VIEW progview;\n";
         
-        viewQuery.add(create);
-        viewQuery.add(create2);
-        viewQuery.add(create3);
-        viewQuery.add(query);indexViewQuery = 3;
-        viewQuery.add(drop1);
-        viewQuery.add(drop2);
-        viewQuery.add(drop3);*/
+        execQuery.add(create);
+        execQuery.add(create2);
+        execQuery.add(query);
+        execQuery.add(drop1);
+        execQuery.add(drop2);
     }
 
     public void StoredProcedureQuery(int c1,int c2, int c3,int c4, int c5 , int c6, int c7, int c8,  int c9, int c10, int c11, int v1, int v2, int v3, int v4, int v5, int v6, int v7, int v8,int v9, int v10, int v11) {
@@ -109,8 +102,8 @@ public class Query2 {
         return storedProcedureQuery;
     }
 
-    public ArrayList<String> getViewQuery() {
-        return viewQuery;
+    public ArrayList<String> getQueryWithCreateDropFunction() {
+        return execQuery;
     }
 
 }

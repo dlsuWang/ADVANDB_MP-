@@ -28,7 +28,7 @@ public class TablePanel extends JPanel{
     private DBConnector dbc;
     private ResultSet rs;
     private ResultSetMetaData metaData = null;
-    private String[] cols = {"Hello","Hi","Bonjour"}; 
+    private String[] cols = {"Hello","Hi","O Elo", "Bonjour"}; 
     private Object[][] rows = {};
     private Controller c;
     

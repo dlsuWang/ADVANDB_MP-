@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class Query6 {
     
     private String normalQuery, heuristicsQuery, indexQuery, storedProcedureQuery;
-    private ArrayList<String> viewQuery = new ArrayList<String>();
+    private ArrayList<String> execQuery = new ArrayList<String>();
     private String append;
     
     public Query6(int sugarcane, int palay, int corn, int others){
@@ -65,11 +65,11 @@ public class Query6 {
         drop1 = "DROP VIEW mview;\n";
         drop2 = "DROP VIEW hview;";
         
-        viewQuery.add(create);
-        viewQuery.add(create2);
-        viewQuery.add(query);
-        viewQuery.add(drop1);
-        viewQuery.add(drop2);
+        execQuery.add(create);
+        execQuery.add(create2);
+        execQuery.add(query);
+        execQuery.add(drop1);
+        execQuery.add(drop2);
         
     }
 
@@ -92,8 +92,8 @@ public class Query6 {
         return storedProcedureQuery;
     }
 
-    public ArrayList<String> getViewQuery() {
-        return viewQuery;
+    public ArrayList<String> getQueryWithCreateDropFunction() {
+        return execQuery;
     }
     
 }

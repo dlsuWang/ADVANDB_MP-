@@ -15,9 +15,8 @@ import java.util.*;
 public class Query1{
     
     private String normalQuery, heuristicsQuery, indexQuery, storedProcedureQuery;
-    private ArrayList<String> viewQuery = new ArrayList<String>();
+    private ArrayList<String> execQuery = new ArrayList<String>();
     private String append;
-    private int sch_type, sex, sss_ind;
     
     public Query1(int sch_type, int sex, int sss_ind){
         NormalQuery(sch_type,sex,sss_ind);
@@ -74,9 +73,9 @@ public class Query1{
         query +=";\n"; 
         drop = "DROP VIEW v_occup;";
         
-        viewQuery.add(create);
-        viewQuery.add(query);
-        viewQuery.add(drop);
+        execQuery.add(create);
+        execQuery.add(query);
+        execQuery.add(drop);
     }
 
     public void StoredProcedureQuery(int sch_type, int sex, int sss_ind) {
@@ -98,8 +97,8 @@ public class Query1{
         return storedProcedureQuery;
     }
 
-    public ArrayList<String> getViewQuery() {
-        return viewQuery;
+    public ArrayList<String> getQueryWithCreateDropFunction() {
+        return execQuery;
     }
     
 }

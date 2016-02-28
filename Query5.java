@@ -15,7 +15,7 @@ import java.util.*;
 public class Query5{
     
     private String normalQuery, heuristicsQuery, indexQuery, storedProcedureQuery;
-    private ArrayList<String> viewQuery = new ArrayList<String>();
+    private ArrayList<String> execQuery = new ArrayList<String>();
     private String append;
     
     public Query5(int af1, int af2, int af3, int af4, int af5, int af6, int af7, int af8, int af9, int ae1, int ae2, int ae3, int ae4, int ae5, int ae6, int ae7, int ae8){
@@ -80,13 +80,13 @@ public class Query5{
         drop2 = "DROP VIEW mview;\n";
         drop3 = "DROP VIEW aview;\n";
         
-        viewQuery.add(create);
-        viewQuery.add(create2);
-        viewQuery.add(create3);
-        viewQuery.add(query);
-        viewQuery.add(drop1);
-        viewQuery.add(drop2);
-        viewQuery.add(drop3);
+        execQuery.add(create);
+        execQuery.add(create2);
+        execQuery.add(create3);
+        execQuery.add(query);
+        execQuery.add(drop1);
+        execQuery.add(drop2);
+        execQuery.add(drop3);
     }
 
     public void StoredProcedureQuery(int af1, int af2, int af3, int af4, int af5, int af6, int af7, int af8, int af9, int ae1, int ae2, int ae3, int ae4, int ae5, int ae6, int ae7, int ae8) {
@@ -108,8 +108,8 @@ public class Query5{
         return storedProcedureQuery;
     }
 
-    public ArrayList<String> getViewQuery() {
-        return viewQuery;
+    public ArrayList<String> getQueryWithCreateDropFunction() {
+        return execQuery;
     }
 
 }

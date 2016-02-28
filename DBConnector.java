@@ -57,7 +57,7 @@ public class DBConnector {
         return null;
     }
     
-    public ResultSet getResultSetWithCreateView(ArrayList<String> query){
+    public ResultSet getResultSetCreateDropFunction(ArrayList<String> query){
         
         for(int i = 0; i<query.size(); i++)
             System.out.println(query.get(i));
@@ -68,7 +68,7 @@ public class DBConnector {
             for(int i = 0; i<mid; i++){
                 try{
                     st = c.createStatement();
-                    st.execute(query.get(i)); //first is create
+                    st.execute(query.get(i)); //first half are the create functions
                 }catch(SQLException e){
                     JOptionPane.showMessageDialog(null,"Cannot create statement in for loop","ERROR", JOptionPane.ERROR_MESSAGE); 
                System.out.println("**Entered getResultSet error**");
@@ -81,7 +81,7 @@ public class DBConnector {
             for(int i = mid+1; i<query.size(); i++){
                 try{
                     st = c.createStatement();
-                    st.execute(query.get(i)); //first is create
+                    st.execute(query.get(i)); //second half are the drop functions
                 }catch(SQLException e){
                     JOptionPane.showMessageDialog(null,"Cannot create statement in for loop","ERROR", JOptionPane.ERROR_MESSAGE); 
                System.out.println("**Entered getResultSet error**");

@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 public class Query3 {
     private String normalQuery, heuristicsQuery, indexQuery, storedProcedureQuery;
-    private ArrayList<String> viewQuery = new ArrayList<String>();
+    private ArrayList<String> execQuery = new ArrayList<String>();
     private String append;
     
     public Query3(int sex, int educ, int reg, int last, int job, int work, int death){
@@ -88,11 +88,11 @@ public class Query3 {
         drop = "DROP VIEW mview;";
         drop2 = "DROP VIEW dview;";
         
-        viewQuery.add(create);
-        viewQuery.add(create2);
-        viewQuery.add(query);
-        viewQuery.add(drop);
-        viewQuery.add(drop2);
+        execQuery.add(create);
+        execQuery.add(create2);
+        execQuery.add(query);
+        execQuery.add(drop);
+        execQuery.add(drop2);
     }
 
     public void StoredProcedureQuery(int sex, int educ, int reg, int last, int job, int work, int death) {
@@ -114,8 +114,8 @@ public class Query3 {
         return storedProcedureQuery;
     }
 
-    public ArrayList<String> getViewQuery() {
-        return viewQuery;
+    public ArrayList<String> getQueryWithCreateDropFunction() {
+        return execQuery;
     }
     
 }
