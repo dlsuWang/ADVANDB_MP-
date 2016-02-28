@@ -45,8 +45,8 @@ public class Controller {
         Query2 query = new Query2(c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11, v1, v2,v3,v4,v5,v6,v7,v8,v9,v10,v11);
         if(variation == 1) mf.sendRSToTable(dbc.getResultSet(query.getNormalQuery()));
         else if(variation == 2) mf.sendRSToTable(dbc.getResultSet(query.getHeuristicsQuery()));
-        else if(variation == 3) mf.sendRSToTable(dbc.getResultSet(query.getIndexQuery()));
-        else if(variation == 4) mf.sendRSToTable(dbc.getResultSetCreateDropFunction(query.getQueryWithCreateDropFunction()));
+        else if(variation == 3) mf.sendRSToTable(dbc.getResultSetCreateDropFunction(query.getQueryWithCreateDropFunction("index")));
+        else if(variation == 4) mf.sendRSToTable(dbc.getResultSetCreateDropFunction(query.getQueryWithCreateDropFunction("view")));
         else if(variation == 5) mf.sendRSToTable(dbc.getResultSet(query.getNormalQuery()));
         
         mf.postExecutionTimeAndTupleVal(dbc.getExecutionTime(), dbc.getNumberOfTuples());
