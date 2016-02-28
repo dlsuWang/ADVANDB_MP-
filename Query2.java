@@ -1,3 +1,5 @@
+
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -13,13 +15,15 @@ import java.util.ArrayList;
  * @author Nikko
  */
 public class Query2 {
-  private String normalQuery, heuristicsQuery, indexQuery, storedProcedureQuery;
-    private ArrayList<String> execQuery = new ArrayList<String>();
+  private String normalQuery, heuristicsQuery, indexSql, storedProcedureQuery;
+    private ArrayList<String> viewQuery = new ArrayList<String>();
+    private ArrayList<String> indexQuery = new ArrayList<String>();
     private String append;
     
     public Query2(int c1,int c2, int c3,int c4, int c5 , int c6, int c7, int c8,  int c9, int c10, int c11, int v1, int v2, int v3, int v4, int v5, int v6, int v7, int v8,int v9, int v10, int v11){
         NormalQuery(c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11, v1, v2,v3,v4,v5,v6,v7,v8,v9,v10,v11);
-        ViewsQuery(c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11, v1, v2,v3,v4,v5,v6,v7,v8,v9,v10,v11);
+        ViewsQuery(c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11, v1, v2,v3,v4,v5,v6,v7,v8,v9,v10,v11);            
+        IndexQuery(c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11, v1, v2,v3,v4,v5,v6,v7,v8,v9,v10,v11);            
     }
     
     public void NormalQuery(int c1,int c2, int c3,int c4, int c5 , int c6, int c7, int c8,  int c9, int c10, int c11, int v1, int v2, int v3, int v4, int v5, int v6, int v7, int v8,int v9, int v10, int v11){
@@ -42,8 +46,123 @@ public class Query2 {
     }
 
     public void IndexQuery(int c1,int c2, int c3,int c4, int c5 , int c6, int c7, int c8,  int c9, int c10, int c11, int v1, int v2, int v3, int v4, int v5, int v6, int v7, int v8,int v9, int v10, int v11) {
+        
+        ArrayList list = new ArrayList<Integer>();
+        list.add(c1);
+        list.add(c2);
+        list.add(c3);
+        list.add(c4);
+        list.add(c5);
+        list.add(c6);
+        list.add(c7);
+        list.add(c8);
+        list.add(c9);
+        list.add(c10);
+        list.add(c11);
+        
+        boolean useIndex = false;
+        
+        for(int a=0; a < list.size(); a++)
+        {
+            if((int)list.get(a) == 1)
+            {
+                useIndex = true;
+                break;
+            }
+        }
+
+        if(useIndex)
+        {
+            indexSql = "Create Index indexName on hpq_hh(";
+            
+            boolean isFirst = true;
+            
+            for(int a=0; a < list.size(); a++)
+            {
+                if((int)list.get(a) == 1 && isFirst)
+                {
+                    isFirst = false;
+                    
+                    indexSql = indexFunction(indexSql, a+1);
+                }
+                else if((int)list.get(a) == 1 && !isFirst)
+                {
+                    indexSql = indexSql + ", ";
+                    indexSql = indexFunction(indexSql, a+1);
+                }
+            }
+            
+            
+             indexSql = indexSql + ");"; 
+            
+        }
+        else
+        {
+            indexSql = "Create Index indexName on hpq_hh(zone);";
+        }
+
+        indexQuery.add(indexSql);
+        
+        NormalQuery(c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11);
+        
+        indexQuery.add(normalQuery);
+        
+        String drop = "Alter Table hpq_hh Drop Index indexName;";
+        
+        indexQuery.add(drop);
+        
     }
 
+     public String indexFunction(String indexSql, int column){
+        
+        switch(column){
+            case 1:
+                indexSql = indexSql + "calam1_hwmny";
+            break;
+            
+            case 2:
+                indexSql = indexSql + "calam2_hwmny";
+            break;
+            
+            case 3:
+                indexSql = indexSql + "calam3_hwmny";
+            break;
+            
+            case 4:
+                indexSql = indexSql + "calam4_hwmny";
+            break;
+            
+            case 5:
+                indexSql = indexSql + "calam5_hwmny";
+            break;
+
+            case 6:
+                indexSql = indexSql + "calam6_hwmny";
+            break;
+            
+            case 7:
+                indexSql = indexSql + "calam7_hwmny";
+            break;
+            
+            case 8:
+                indexSql = indexSql + "calam8_hwmny";
+            break;
+            
+            case 9:
+                indexSql = indexSql + "calam9_hwmny";
+            break;
+            
+            case 10:
+                indexSql = indexSql + "calam10_hwmny";
+            break;
+            
+            case 11:
+                indexSql = indexSql + "calam11_hwmny";
+        }
+                 
+        return indexSql;
+    }
+    
     public void ViewsQuery(int c1,int c2, int c3,int c4, int c5 , int c6, int c7, int c8,  int c9, int c10, int c11, int v1, int v2, int v3, int v4, int v5, int v6, int v7, int v8,int v9, int v10, int v11) {
         String create, create2, query, drop1, drop2;
         
@@ -76,22 +195,19 @@ public class Query2 {
         drop1 = "DROP VIEW calamview;\n";
         drop2 = "DROP VIEW progview;\n";
         
-        execQuery.add(create);
-        execQuery.add(create2);
-        execQuery.add(query);
-        execQuery.add(drop1);
-        execQuery.add(drop2);
+        viewQuery.add(create);
+        viewQuery.add(create2);
+        viewQuery.add(query);
+        viewQuery.add(drop1);
+        viewQuery.add(drop2);
     }
 
     public void StoredProcedureQuery(int c1,int c2, int c3,int c4, int c5 , int c6, int c7, int c8,  int c9, int c10, int c11, int v1, int v2, int v3, int v4, int v5, int v6, int v7, int v8,int v9, int v10, int v11) {
     }
 
     public String getNormalQuery() {
+        
         return normalQuery;
-    }
-
-    public String getIndexQuery() {
-        return indexQuery;
     }
 
     public String getHeuristicsQuery() {
@@ -102,8 +218,24 @@ public class Query2 {
         return storedProcedureQuery;
     }
 
-    public ArrayList<String> getQueryWithCreateDropFunction() {
-        return execQuery;
+    public ArrayList<String> getQueryWithCreateDropFunction(String keyword) {
+        
+        if(keyword.equals("view"))
+        {
+            System.out.println(viewQuery.size());
+            for(int a=0; a < viewQuery.size(); a++)
+            {
+                
+                System.out.println(viewQuery.get(a));
+            }
+            return viewQuery;
+        }
+        else
+        {
+            System.out.println(indexQuery.size());
+            return indexQuery;
+        }
+        
     }
 
 }
