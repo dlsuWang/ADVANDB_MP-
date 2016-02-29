@@ -70,6 +70,11 @@ public class MainFrame extends JFrame{
         getContentPane().setLayout(null);
         getContentPane().setBackground(Color.decode("#ffffff"));
         UIManager.put("Button.select", Color.decode("#dddddd"));
+        
+        try {
+                    UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+            }catch (Exception e) {}
+        
         /*Controller*/
         controller = new Controller(this);
         
@@ -406,7 +411,7 @@ public class MainFrame extends JFrame{
         pnl_User_Query2.add(lblCalam1);
         txtCalam1 = new JTextField();
         txtCalam1.setFont(new Font("Tahoma", Font.PLAIN, 11));
-        txtCalam1.setBounds(65, 142, 30, 17);
+        txtCalam1.setBounds(65, 142, 30, 20);
         pnl_User_Query2.add(txtCalam1);
         JLabel lblCalam2 = new JLabel("Baha:");
         lblCalam2.setFont(new Font("Tahoma", Font.PLAIN, 11));
@@ -415,7 +420,7 @@ public class MainFrame extends JFrame{
         pnl_User_Query2.add(lblCalam2);
         txtCalam2 = new JTextField();
         txtCalam2.setFont(new Font("Tahoma", Font.PLAIN, 11));
-        txtCalam2.setBounds(65, 162, 30, 17);
+        txtCalam2.setBounds(65, 162, 30, 20);
         pnl_User_Query2.add(txtCalam2);
         JLabel lblCalam3 = new JLabel("Tagtuyot:");
         lblCalam3.setFont(new Font("Tahoma", Font.PLAIN, 11));
@@ -424,7 +429,7 @@ public class MainFrame extends JFrame{
         pnl_User_Query2.add(lblCalam3);
         txtCalam3 = new JTextField();
         txtCalam3.setFont(new Font("Tahoma", Font.PLAIN, 11));
-        txtCalam3.setBounds(65, 182, 30, 17);
+        txtCalam3.setBounds(65, 182, 30, 20);
         pnl_User_Query2.add(txtCalam3);
         JLabel lblCalam4 = new JLabel("Lindol:");
         lblCalam4.setFont(new Font("Tahoma", Font.PLAIN, 11));
@@ -433,7 +438,7 @@ public class MainFrame extends JFrame{
         pnl_User_Query2.add(lblCalam4);
         txtCalam4 = new JTextField();
         txtCalam4.setFont(new Font("Tahoma", Font.PLAIN, 11));
-        txtCalam4.setBounds(65, 202, 30, 17);
+        txtCalam4.setBounds(65, 202, 30, 20);
         pnl_User_Query2.add(txtCalam4);
         JLabel lblCalam5 = new JLabel("<html>Pagsabog ng<br>Bulkan</html>:");
         lblCalam5.setFont(new Font("Tahoma", Font.PLAIN, 11));
@@ -442,7 +447,7 @@ public class MainFrame extends JFrame{
         pnl_User_Query2.add(lblCalam5);
         txtCalam5 = new JTextField();
         txtCalam5.setFont(new Font("Tahoma", Font.PLAIN, 11));
-        txtCalam5.setBounds(170, 142, 30, 17);
+        txtCalam5.setBounds(170, 142, 30, 20);
         pnl_User_Query2.add(txtCalam5);
         JLabel lblCalam6 = new JLabel("Landslide:");
         lblCalam6.setFont(new Font("Tahoma", Font.PLAIN, 11));
@@ -451,7 +456,7 @@ public class MainFrame extends JFrame{
         pnl_User_Query2.add(lblCalam6);
         txtCalam6 = new JTextField();
         txtCalam6.setFont(new Font("Tahoma", Font.PLAIN, 11));
-        txtCalam6.setBounds(170, 162, 30, 17);
+        txtCalam6.setBounds(170, 162, 30, 20);
         pnl_User_Query2.add(txtCalam6);
         JLabel lblCalam7 = new JLabel("Tsunami:");
         lblCalam7.setFont(new Font("Tahoma", Font.PLAIN, 11));
@@ -460,7 +465,7 @@ public class MainFrame extends JFrame{
         pnl_User_Query2.add(lblCalam7);
         txtCalam7 = new JTextField();
         txtCalam7.setFont(new Font("Tahoma", Font.PLAIN, 11));
-        txtCalam7.setBounds(170, 182, 30, 17);
+        txtCalam7.setBounds(170, 182, 30, 20);
         pnl_User_Query2.add(txtCalam7);
         JLabel lblCalam8 = new JLabel("Sunog:");
         lblCalam8.setFont(new Font("Tahoma", Font.PLAIN, 11));
@@ -469,7 +474,7 @@ public class MainFrame extends JFrame{
         pnl_User_Query2.add(lblCalam8);
         txtCalam8 = new JTextField();
         txtCalam8.setFont(new Font("Tahoma", Font.PLAIN, 11));
-        txtCalam8.setBounds(170, 202, 30, 17);
+        txtCalam8.setBounds(170, 202, 30, 20);
         pnl_User_Query2.add(txtCalam8);
         JLabel lblCalam9 = new JLabel("<html>Forest<br>Fire:</html");
         lblCalam9.setFont(new Font("Tahoma", Font.PLAIN, 11));
@@ -478,7 +483,7 @@ public class MainFrame extends JFrame{
         pnl_User_Query2.add(lblCalam9);
         txtCalam9 = new JTextField();
         txtCalam9.setFont(new Font("Tahoma", Font.PLAIN, 11));
-        txtCalam9.setBounds(255, 142, 30, 17);
+        txtCalam9.setBounds(255, 142, 30, 20);
         pnl_User_Query2.add(txtCalam9);
         JLabel lblCalam10 = new JLabel("<html>Armadong<br>Digmaan:</html>");
         lblCalam10.setFont(new Font("Tahoma", Font.PLAIN, 11));
@@ -487,7 +492,7 @@ public class MainFrame extends JFrame{
         pnl_User_Query2.add(lblCalam10);
         txtCalam10 = new JTextField();
         txtCalam10.setFont(new Font("Tahoma", Font.PLAIN, 11));
-        txtCalam10.setBounds(255, 167, 30, 17);
+        txtCalam10.setBounds(255, 167, 30, 20);
         pnl_User_Query2.add(txtCalam10);
         JLabel lblCalam11 = new JLabel("Others:");
         lblCalam11.setFont(new Font("Tahoma", Font.PLAIN, 11));
@@ -496,7 +501,7 @@ public class MainFrame extends JFrame{
         pnl_User_Query2.add(lblCalam11);
         txtCalam11 = new JTextField();
         txtCalam11.setFont(new Font("Tahoma", Font.PLAIN, 11));
-        txtCalam11.setBounds(255, 187, 30, 17);
+        txtCalam11.setBounds(255, 187, 30, 20);
         pnl_User_Query2.add(txtCalam11);
     }
     public void UserInputQuery1Panel(){
@@ -967,7 +972,7 @@ public class MainFrame extends JFrame{
         rbSugarCane.setFont(new Font("Tahoma", Font.PLAIN, 11));
         rbSugarCane.setBounds(5, 190, 90, 30);
         rbSugarCane.setForeground(Color.WHITE);
-        rbSugarCane.setSelected(false);
+        rbSugarCane.setSelected(true);
         rbSugarCane.setContentAreaFilled(false);
         rbSugarCane.setFocusPainted(false);
         rbSugarCane.addActionListener(new doActionListener());
@@ -1195,7 +1200,7 @@ public class MainFrame extends JFrame{
         rbSugarCane2.setFont(new Font("Tahoma", Font.PLAIN, 11));
         rbSugarCane2.setBounds(5, 30, 90, 30);
         rbSugarCane2.setForeground(Color.WHITE);
-        rbSugarCane2.setSelected(false);
+        rbSugarCane2.setSelected(true);
         rbSugarCane2.setContentAreaFilled(false);
         rbSugarCane2.setFocusPainted(false);
         rbSugarCane2.addActionListener(new doActionListener());
@@ -1326,7 +1331,7 @@ public class MainFrame extends JFrame{
         pnl_User_Query7.add(lblFishVol);
         txtFishVol = new JTextField();
         txtFishVol.setFont(new Font("Tahoma", Font.PLAIN, 11));
-        txtFishVol.setBounds(200, 107, 40, 17);
+        txtFishVol.setBounds(200, 107, 40, 30);
         pnl_User_Query7.add(txtFishVol);
         
     }
@@ -1406,7 +1411,15 @@ public class MainFrame extends JFrame{
                 btnQuery7.setSelected(true);
                 pnl_User_Query7.setVisible(true);
             }else if(action.getSource() == infoQuery){
-                JOptionPane.showMessageDialog(null, "Query 1:\nQuery 2:\nQuery 3:\nQuery 4:\nQuery 5:\nQuery 6:\nQuery 7:", "About",JOptionPane.INFORMATION_MESSAGE);
+                String query1 = "Find the primary occupation and the industry of all seasonal employees who graduated/currently enrolled in either private/public school \nand is a member of a social insurance program.";
+                String query2 = "Find the number of people in a zone accepting specific types of government programs given that people are affected by a specific calamity X \nnumber of times in the last 12 months.";
+                String query3 = "Find individuals who used to be employed, are college graduates/masters graduate, if they are registered voters and have voted last election \nhad worked for the past month, and did the work under a private business or under the government and their cause of death.";
+                String query4 = "Find the volume of a harvested crop based from households which owns a given agriculture equipment(Beast of Burden, Plow,Harrow, Mower, \nThresher/Corn Sheller, Insecticide/Pesticide, Farm Tractor, Hand Tractor, Turtle/Mudboat, Planter/Transplanter/Dryer, Mechanical Dryer,  Multipurpose \nDrying Pavement, Rice/Corn/Feed mill,  Harvester, Warehouse Granary, Farmshed, Irrigation Pump, Other agricultural equipment)";
+                String query5 = "Find the households that has at least one member with Fishing as their primary occupation along with the type of fishing equipments the \nhousehold owns , which caught/bred at least two different kinds of fish for the past 12 months, used at least one type/s of fishing equipment for the \npast 12 months AND owns/uses either FISH PONDS/ FISH PEN/ FISH CAGE/ SEAWEED FARM/OYSTER FARM/MUSSEL FARM/FISH TANK/\nHATCHERY/OTHER AQUA FARMS. ";
+                String query6 = "Find all family head member/s, who finished at least elementary, whose household plants a given crop, whose water source comes from a \ncommunity water system or a well and whose household needs to walk 251 meters or more just to get water.";
+                String query7 = "Find the cause of death and total income of the people that used fishing equipment X and captured a volume of fish that is greater than Y.\n" +"X can be fish net, electricity, bagnets, gillnets, traps, hooks and line, sift net or others";
+                
+                JOptionPane.showMessageDialog(null, "<html><b>Query 1</b>: " + query1 +"\n\n<html><b>Query 2</b>: "+query2+"\n\n<html><b>Query 3</b>: "+query3+"\n\n<html><b>Query 4</b>: "+query4+"\n\n<html><b>Query 5</b>: "+query5+"\n\n<html><b>Query 6</b>: "+query6+"\n\n<html><b>Query 7</b>: "+query7, "About the Queries",JOptionPane.INFORMATION_MESSAGE);
             }else if(action.getSource() == btnExecute){
                 if(btnQuery1.isSelected() == true){
                     int sch_type=0, sex=0, sss_ind=0;
@@ -1565,7 +1578,7 @@ public class MainFrame extends JFrame{
     }
     
     public void postExecutionTimeAndTupleVal(double time, int numoftuples){
-        lblEstimatedTime.setText("Estimated Execution Time: "+ time + " seconds. "+ numoftuples + " row(s) returned."  );
+        lblEstimatedTime.setText("<html>Estimated Execution Time: <font color='#990000'><b>"+ time + "</b></font> seconds. "+ numoftuples + " row(s) returned."  );
         repaint();
         revalidate();
     }

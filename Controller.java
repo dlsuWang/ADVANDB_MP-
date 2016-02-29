@@ -55,7 +55,7 @@ public class Controller {
         Query3 query = new Query3(sex,educ,reg,last,job,work,death);
         if(variation == 1) mf.sendRSToTable(dbc.getResultSet(query.getNormalQuery()));
         else if(variation == 2) mf.sendRSToTable(dbc.getResultSet(query.getHeuristicsQuery()));
-        else if(variation == 3) mf.sendRSToTable(dbc.getResultSetCreateDropFunction(query.getQueryWithCreateDropFunction("index")));        
+        else if(variation == 3) mf.sendRSToTable(dbc.getResultSetCreateDropFunction(query.getQueryWithCreateDropFunction("index")));
         else if(variation == 4) mf.sendRSToTable(dbc.getResultSetCreateDropFunction(query.getQueryWithCreateDropFunction("view")));
         else if(variation == 5) mf.sendRSToTable(dbc.getResultSet(query.getNormalQuery()));
         
