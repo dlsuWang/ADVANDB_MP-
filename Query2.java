@@ -103,8 +103,6 @@ public class Query2 {
 
         indexQuery.add(indexSql);
         
-        NormalQuery(c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11);
-        
         indexQuery.add(normalQuery);
         
         String drop = "Alter Table hpq_hh Drop Index indexName;";
