@@ -65,8 +65,8 @@ public class Controller {
         Query4 query = new Query4(ae1,ae2,ae3,ae4,ae5,ae6,ae7,ae8,ae9,ae10,ae11,ae12,ae13,ae14,ae15,ae16,ae17,ae18,sugarcane,palay,corn,others);
         if(variation == 1) mf.sendRSToTable(dbc.getResultSet(query.getNormalQuery()));
         else if(variation == 2) mf.sendRSToTable(dbc.getResultSet(query.getHeuristicsQuery()));
-        else if(variation == 3) mf.sendRSToTable(dbc.getResultSet(query.getIndexQuery()));
-        else if(variation == 4) mf.sendRSToTable(dbc.getResultSetCreateDropFunction(query.getQueryWithCreateDropFunction()));
+        else if(variation == 3) mf.sendRSToTable(dbc.getResultSetCreateDropFunction(query.getQueryWithCreateDropFunction("index")));
+        else if(variation == 4) mf.sendRSToTable(dbc.getResultSetCreateDropFunction(query.getQueryWithCreateDropFunction("view")));
         else if(variation == 5) mf.sendRSToTable(dbc.getResultSet(query.getNormalQuery()));
         
         mf.postExecutionTimeAndTupleVal(dbc.getExecutionTime(), dbc.getNumberOfTuples());
@@ -75,8 +75,8 @@ public class Controller {
         Query5 query = new Query5(af1,af2,af3,af4,af5,af6,af7,af8,af9,ae1,ae2,ae3,ae4,ae5,ae6,ae7,ae8);
         if(variation == 1) mf.sendRSToTable(dbc.getResultSet(query.getNormalQuery()));
         else if(variation == 2) mf.sendRSToTable(dbc.getResultSet(query.getHeuristicsQuery()));
-        else if(variation == 3) mf.sendRSToTable(dbc.getResultSet(query.getIndexQuery()));
-        else if(variation == 4) mf.sendRSToTable(dbc.getResultSetCreateDropFunction(query.getQueryWithCreateDropFunction()));
+        else if(variation == 3) mf.sendRSToTable(dbc.getResultSetCreateDropFunction(query.getQueryWithCreateDropFunction("index")));
+        else if(variation == 4) mf.sendRSToTable(dbc.getResultSetCreateDropFunction(query.getQueryWithCreateDropFunction("view")));
         else if(variation == 5) mf.sendRSToTable(dbc.getResultSet(query.getNormalQuery()));
         
         mf.postExecutionTimeAndTupleVal(dbc.getExecutionTime(), dbc.getNumberOfTuples());
