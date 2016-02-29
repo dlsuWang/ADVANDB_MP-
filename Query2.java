@@ -235,7 +235,6 @@ public class Query2 {
             System.out.println(indexQuery.size());
             return indexQuery;
         }
-        
     }
-
+    
 }
