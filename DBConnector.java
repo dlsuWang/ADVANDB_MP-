@@ -102,6 +102,52 @@ public class DBConnector {
         return null;
     }
     
+    public ResultSet getResultSetStoredProcedure(ArrayList<String> query) throws SQLException
+    {
+        for(int i = 0; i < query.size() ; i++)
+            System.out.println(query.get(i));
+        System.out.println("-------");
+        
+        //execute queries
+        // for dropping of procedure
+        try{
+                    st = c.createStatement();
+                    st.execute(query.get(0)); //first half are the create functions
+                }catch(SQLException e){
+                    JOptionPane.showMessageDialog(null,"DROP PROCEDURE failed! Procedure may not exist!","ERROR", JOptionPane.ERROR_MESSAGE); 
+               System.out.println("**Entered getResultSet error**");
+                };
+                
+        // for create procedure
+        try{
+                    st = c.createStatement();
+                    st.execute(query.get(1)); //first half are the create functions
+                }catch(SQLException e){
+                    JOptionPane.showMessageDialog(null,"CREATE PROCEDURE failed! Procedure may already exist!","ERROR", JOptionPane.ERROR_MESSAGE); 
+               System.out.println("**Entered getResultSet error**");
+                };
+                
+        // for call procedure
+        try{     
+            startTime = System.nanoTime();
+                st = c.createStatement();
+                rs = st.executeQuery(query.get(2));
+            stopTime = System.nanoTime();  
+        }catch(SQLException e){
+                    JOptionPane.showMessageDialog(null,"CALL PROCEDURE failed! Procedure may not exist!","ERROR", JOptionPane.ERROR_MESSAGE); 
+               System.out.println("**Entered getResultSet error**");
+                };
+                
+                numoftuples = 0;
+            while (rs.next()) {
+                numoftuples++;
+            }
+            rs.beforeFirst(); //cause we iterated until the end, we need to put the cursor back to the first record.
+            
+            return rs;
+        
+    }
+    
     public double getExecutionTime(){
         return (double)(stopTime - startTime) / 1000000000.0;
     }
