@@ -13,14 +13,16 @@ import java.util.ArrayList;
  * @author Nikko
  */
 public class Query3 {
-    private String normalQuery, heuristicsQuery, indexQuery, storedProcedureQuery;
-    private ArrayList<String> execQuery = new ArrayList<String>();
+    private String normalQuery, heuristicsQuery, indexSql, storedProcedureQuery;
+    private ArrayList<String> viewQuery = new ArrayList<String>();
+    private ArrayList<String> indexQuery = new ArrayList<String>();
     private String append;
     
     public Query3(int sex, int educ, int reg, int last, int job, int work, int death){
 
         NormalQuery(sex,educ,reg,last,job,work,death);
         ViewsQuery(sex,educ,reg,last,job,work,death);
+        IndexQuery(sex,educ,reg,last,job,work,death);
     }
     
     public void NormalQuery(int sex, int educ, int reg, int last, int job, int work, int death){
@@ -51,6 +53,13 @@ public class Query3 {
     }
 
     public void IndexQuery(int sex, int educ, int reg, int last, int job, int work, int death) {
+    
+        indexQuery.add("Create Index indexOne on hpq_mem(id, educal, regvotind, voted_last_election, jobind, workcl);");
+        indexQuery.add("Create Index indexTwo on hpq_death(hpq_hh_id, mdeady);");
+        indexQuery.add(normalQuery);
+        indexQuery.add("Alter Table hpq_mem Drop Index indexOne;");
+        indexQuery.add("Alter Table hpq_death Drop Index indexTwo;");
+        
     }
 
     public void ViewsQuery(int sex, int educ, int reg, int last, int job, int work, int death) {
@@ -88,11 +97,11 @@ public class Query3 {
         drop = "DROP VIEW mview;";
         drop2 = "DROP VIEW dview;";
         
-        execQuery.add(create);
-        execQuery.add(create2);
-        execQuery.add(query);
-        execQuery.add(drop);
-        execQuery.add(drop2);
+        viewQuery.add(create);
+        viewQuery.add(create2);
+        viewQuery.add(query);
+        viewQuery.add(drop);
+        viewQuery.add(drop2);
     }
 
     public void StoredProcedureQuery(int sex, int educ, int reg, int last, int job, int work, int death) {
@@ -100,10 +109,6 @@ public class Query3 {
 
     public String getNormalQuery() {
         return normalQuery;
-    }
-
-    public String getIndexQuery() {
-        return indexQuery;
     }
 
     public String getHeuristicsQuery() {
@@ -114,8 +119,17 @@ public class Query3 {
         return storedProcedureQuery;
     }
 
-    public ArrayList<String> getQueryWithCreateDropFunction() {
-        return execQuery;
+    public ArrayList<String> getQueryWithCreateDropFunction(String keyword) {
+         
+        if(keyword.equals("view"))
+        {
+            return viewQuery;
+        }
+        else
+        {
+            return indexQuery;
+        }   
+         
     }
     
 }
