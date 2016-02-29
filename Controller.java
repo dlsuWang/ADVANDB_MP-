@@ -85,8 +85,8 @@ public class Controller {
         Query6 query = new Query6(sugarcane,palay,corn,others);
         if(variation == 1) mf.sendRSToTable(dbc.getResultSet(query.getNormalQuery()));
         else if(variation == 2) mf.sendRSToTable(dbc.getResultSet(query.getHeuristicsQuery()));
-        else if(variation == 3) mf.sendRSToTable(dbc.getResultSet(query.getIndexQuery()));
-        else if(variation == 4) mf.sendRSToTable(dbc.getResultSetCreateDropFunction(query.getQueryWithCreateDropFunction()));
+        else if(variation == 3) mf.sendRSToTable(dbc.getResultSetCreateDropFunction(query.getQueryWithCreateDropFunction("index")));
+        else if(variation == 4) mf.sendRSToTable(dbc.getResultSetCreateDropFunction(query.getQueryWithCreateDropFunction("view")));
         else if(variation == 5) mf.sendRSToTable(dbc.getResultSet(query.getNormalQuery()));
         
         mf.postExecutionTimeAndTupleVal(dbc.getExecutionTime(), dbc.getNumberOfTuples());
@@ -95,8 +95,8 @@ public class Controller {
         Query7 query = new Query7(ae1,ae2,ae3,ae4,ae5,ae6,ae7,ae8, amount);
         if(variation == 1) mf.sendRSToTable(dbc.getResultSet(query.getNormalQuery()));
         else if(variation == 2) mf.sendRSToTable(dbc.getResultSet(query.getHeuristicsQuery()));
-        else if(variation == 3) mf.sendRSToTable(dbc.getResultSet(query.getIndexQuery()));
-        else if(variation == 4) mf.sendRSToTable(dbc.getResultSetCreateDropFunction(query.getQueryWithCreateDropFunction()));
+        else if(variation == 3) mf.sendRSToTable(dbc.getResultSetCreateDropFunction(query.getQueryWithCreateDropFunction("index")));
+        else if(variation == 4) mf.sendRSToTable(dbc.getResultSetCreateDropFunction(query.getQueryWithCreateDropFunction("view")));
         else if(variation == 5) mf.sendRSToTable(dbc.getResultSet(query.getNormalQuery()));
         
         mf.postExecutionTimeAndTupleVal(dbc.getExecutionTime(), dbc.getNumberOfTuples());

@@ -14,16 +14,16 @@ import java.util.ArrayList;
  */
 public class Query7 {
     private String normalQuery, heuristicsQuery, indexSql, storedProcedureQuery;
-    private ArrayList<String> indexQuery = new ArrayList<String>();
     private ArrayList<String> viewQuery = new ArrayList<String>();
+    private ArrayList<String> indexQuery = new ArrayList<String>();
     private ArrayList<String> spQuery = new ArrayList<String>();
     private String append;
     
     public Query7(int ae1, int ae2, int ae3, int ae4, int ae5, int ae6, int ae7, int ae8, int amount){
         NormalQuery(ae1,ae2,ae3,ae4,ae5,ae6,ae7,ae8, amount);
         ViewsQuery(ae1,ae2,ae3,ae4,ae5,ae6,ae7,ae8, amount);
-        IndexQuery(ae1,ae2,ae3,ae4,ae5,ae6,ae7,ae8, amount);
         StoredProcedureQuery(ae1,ae2,ae3,ae4,ae5,ae6,ae7,ae8, amount);
+        HeuristicsQuery(ae1,ae2,ae3,ae4,ae5,ae6,ae7,ae8, amount);
     }
     
     public void NormalQuery(int ae1, int ae2, int ae3, int ae4, int ae5, int ae6, int ae7, int ae8, int amount){
@@ -43,6 +43,22 @@ public class Query7 {
     }
 
     public void HeuristicsQuery(int ae1, int ae2, int ae3, int ae4, int ae5, int ae6, int ae7, int ae8, int amount) {
+        heuristicsQuery = "select totin"
+                            +"from hpq_hh\n"
+                            +"where id in (select hpq_hh_id\n"
+                            +"from hpq_death\n"
+                            +"where hpq_hh_id in (select hpq_hh_id\n"
+                            +"from hpq_aquaequip\n"
+                            +"where hpq_hh_id in\n"
+                            +"(select hpq_hh_id\n"
+                            +"from hpq_aquani\n"
+                            +"group by aquaequiptype\n"
+                            +"having aquaequiptype is not null and sum(aquani_vol) > " + amount;
+        if(ae1 == 1) heuristicsQuery +=" AND ae.aquaequiptype = 1";if(ae5 == 1) heuristicsQuery +=" AND ae.aquaequiptype = 5";
+        if(ae2 == 1) heuristicsQuery +=" AND ae.aquaequiptype = 2";if(ae6 == 1) heuristicsQuery +=" AND ae.aquaequiptype = 6";
+        if(ae3 == 1) heuristicsQuery +=" AND ae.aquaequiptype = 3";if(ae7 == 1) heuristicsQuery+=" AND ae.aquaequiptype = 7";
+        if(ae4 == 1) heuristicsQuery +=" AND ae.aquaequiptype = 4";if(ae8 == 1) heuristicsQuery +=" AND ae.aquaequiptype = 8";                    
+        heuristicsQuery += ") ) );";
     }
 
     public void IndexQuery(int ae1, int ae2, int ae3, int ae4, int ae5, int ae6, int ae7, int ae8, int amount) {
@@ -148,6 +164,10 @@ public class Query7 {
         return normalQuery;
     }
 
+    public String getIndexQuery() {
+        return indexSql;
+    }
+
     public String getHeuristicsQuery() {
         return heuristicsQuery;
     }
@@ -157,7 +177,7 @@ public class Query7 {
     }
 
     public ArrayList<String> getQueryWithCreateDropFunction(String keyword) {
-    
+        
         if(keyword.equals("view"))
         {
             return viewQuery;
@@ -165,8 +185,7 @@ public class Query7 {
         else
         {
             return indexQuery;
-        }
-        
+        }   
     }
 
 }

@@ -17,7 +17,6 @@ public class Query3 {
     private ArrayList<String> viewQuery = new ArrayList<String>();
     private ArrayList<String> indexQuery = new ArrayList<String>();
     private ArrayList<String> spQuery = new ArrayList<String>();
-    private String append;
     
     public Query3(int sex, int educ, int reg, int last, int job, int work, int death){
 
@@ -25,6 +24,7 @@ public class Query3 {
         ViewsQuery(sex,educ,reg,last,job,work,death);
         IndexQuery(sex,educ,reg,last,job,work,death);
         StoredProcedureQuery(sex,educ,reg,last,job,work,death);
+        HeuristicsQuery(sex,educ,reg,last,job,work,death);
     }
     
     public void NormalQuery(int sex, int educ, int reg, int last, int job, int work, int death){
@@ -52,6 +52,28 @@ public class Query3 {
     }
 
     public void HeuristicsQuery(int sex, int educ, int reg, int last, int job, int work, int death) {
+        heuristicsQuery = "select m.id, m.educal, m.regvotind , m.voted_last_election, m.jobind , m.workcl, d.mdeady\n"
+                            +"from hpq_death d, hpq_mem m\n" 
+                            + "where hpq_hh_id in\n" 
+                            + "(select id\n" 
+                            +  "from hpq_mem\nWhere ";
+
+        if(sex == 1) heuristicsQuery+=" sex = 1 ";
+        else if(sex == 2)  heuristicsQuery+="sex = 2 ";
+        else if(sex == 3)  heuristicsQuery+="(sex = 1 OR sex = 2) ";
+        
+        if(educ == 300)  heuristicsQuery+=" AND educal = 300 ";
+        else if(educ == 400)  heuristicsQuery+=" AND educal = 400 ";
+                
+        if(reg == 1) heuristicsQuery+=" AND regvotind = 1 ";
+        else if(reg == 2)  heuristicsQuery+=" AND regvotind = 2 ";
+        
+        if(last == 1)  heuristicsQuery+=" AND voted_last_election = 1 ";
+        else if(last == 2)  heuristicsQuery+=" AND voted_last_election = 2 ";
+        else if(last == 3)  heuristicsQuery+=" AND voted_last_election = 3 ";
+        
+        if(job == 1) heuristicsQuery +=" AND jobind = 1) ";
+        else if(job == 2)  heuristicsQuery +=" AND jobind = 2) ";
     }
 
     public void IndexQuery(int sex, int educ, int reg, int last, int job, int work, int death) {

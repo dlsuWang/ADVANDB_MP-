@@ -183,7 +183,7 @@ public class MainFrame extends JFrame{
         rbNormal.setFont(new Font("Tahoma", Font.PLAIN, 12));
         rbNormal.setBounds(19, 30, 70, 30);
         rbNormal.setForeground(Color.WHITE);
-        rbNormal.setSelected(false);
+        rbNormal.setSelected(true);
 	rbNormal.setContentAreaFilled(false);
 	rbNormal.setFocusPainted(false);
 	rbNormal.addActionListener(new doActionListener());

@@ -25,7 +25,7 @@ public class Query4{
         NormalQuery(ae1,ae2,ae3,ae4,ae5,ae6,ae7,ae8,ae9,ae10,ae11,ae12,ae13,ae14,ae15,ae16,ae17,ae18,sugarcane,palay,corn,others);
         ViewsQuery(ae1,ae2,ae3,ae4,ae5,ae6,ae7,ae8,ae9,ae10,ae11,ae12,ae13,ae14,ae15,ae16,ae17,ae18,sugarcane,palay,corn,others);
         StoredProcedureQuery(ae1,ae2,ae3,ae4,ae5,ae6,ae7,ae8,ae9,ae10,ae11,ae12,ae13,ae14,ae15,ae16,ae17,ae18,sugarcane,palay,corn,others);
-        IndexQuery(ae1,ae2,ae3,ae4,ae5,ae6,ae7,ae8,ae9,ae10,ae11,ae12,ae13,ae14,ae15,ae16,ae17,ae18,sugarcane,palay,corn,others);
+        HeuristicsQuery(ae1,ae2,ae3,ae4,ae5,ae6,ae7,ae8,ae9,ae10,ae11,ae12,ae13,ae14,ae15,ae16,ae17,ae18,sugarcane,palay,corn,others);
     }
     
     public void NormalQuery(int ae1, int ae2, int ae3, int ae4, int ae5, int ae6, int ae7, int ae8, int ae9, int ae10, int ae11, int ae12, int ae13, int ae14, int ae15, int ae16, int ae17, int ae18, int sugarcane, int palay, int corn, int others){
@@ -44,6 +44,20 @@ public class Query4{
     }
 
     public void HeuristicsQuery(int ae1, int ae2, int ae3, int ae4, int ae5, int ae6, int ae7, int ae8, int ae9, int ae10, int ae11, int ae12, int ae13, int ae14, int ae15, int ae16, int ae17, int ae18, int sugarcane, int palay, int corn, int others) {
+        heuristicsQuery = "select croptype, croptype_o, SUM(crop_vol)\n"
+                       +"from hpq_crop\n"
+                       +"where hpq_hh_id in\n"
+                       +"(select id"
+                       +"from hpq_hh"
+                       +"where agriequip1_nown = 0 ";
+        if(ae1 == 1) heuristicsQuery +="and agriequip1_nown = 1) ";if(ae9 == 1) heuristicsQuery +="and agriequip9_nown = 1) ";if(ae17 == 1) heuristicsQuery +="and agriequip17_nown = 1) ";
+        if(ae2 == 1) heuristicsQuery +="and agriequip2_nown = 1) ";if(ae10 == 1) heuristicsQuery +="and agriequip10_nown = 1) ";if(ae18 == 1) heuristicsQuery +="and agriequip18_nown = 1) ";
+        if(ae3 == 1) heuristicsQuery +="and agriequip3_nown = 1) ";if(ae11 == 1) heuristicsQuery +="and agriequip11_nown = 1) ";if(sugarcane == 1) heuristicsQuery +="and c.croptype = 1 ";
+        if(ae4 == 1) heuristicsQuery +="and agriequip4_nown = 1) ";if(ae12 == 1) heuristicsQuery +="and agriequip12_nown = 1) ";if(palay == 1) heuristicsQuery +="and c.croptype = 2";
+        if(ae5 == 1) heuristicsQuery +="and agriequip5_nown = 1) ";if(ae13 == 1) heuristicsQuery +="and agriequip13_nown = 1) ";if(corn == 1) heuristicsQuery +="and c.croptype = 3";
+        if(ae6 == 1) heuristicsQuery +="and agriequip6_nown = 1) ";if(ae14 == 1) heuristicsQuery +="and agriequip14_nown = 1) ";if(others == 1) heuristicsQuery +="and c.croptype = 4";
+        if(ae7 == 1) heuristicsQuery +="and agriequip7_nown = 1) ";if(ae15 == 1) heuristicsQuery +="and agriequip15_nown = 1) ";
+        if(ae8 == 1) heuristicsQuery +="and agriequip8_nown = 1) ";if(ae16 == 1) heuristicsQuery +="and agriequip16_nown = 1) ";
     }
 
     public void IndexQuery(int ae1, int ae2, int ae3, int ae4, int ae5, int ae6, int ae7, int ae8, int ae9, int ae10, int ae11, int ae12, int ae13, int ae14, int ae15, int ae16, int ae17, int ae18, int sugarcane, int palay, int corn, int others) {
@@ -193,7 +207,6 @@ public class Query4{
                  
         return indexSql;
     }
-    
 
     public void ViewsQuery(int ae1, int ae2, int ae3, int ae4, int ae5, int ae6, int ae7, int ae8, int ae9, int ae10, int ae11, int ae12, int ae13, int ae14, int ae15, int ae16, int ae17, int ae18, int sugarcane, int palay, int corn, int others) {
         String create, create2 ,query, drop1, drop2;
@@ -241,11 +254,12 @@ public class Query4{
         spQuery.add("CALL getSPQuery4();");
     }
 
-    
-    
-    
     public String getNormalQuery() {
         return normalQuery;
+    }
+
+    public String getIndexQuery() {
+        return indexSql;
     }
 
     public String getHeuristicsQuery() {
@@ -269,7 +283,5 @@ public class Query4{
         
     }
 
-    
-    
-    
+
 }

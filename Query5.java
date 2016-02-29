@@ -18,13 +18,12 @@ public class Query5{
     private ArrayList<String> viewQuery = new ArrayList<String>();
     private ArrayList<String> spQuery = new ArrayList<String>();
     private ArrayList<String> indexQuery = new ArrayList<String>();
-    private String append;
     
     public Query5(int af1, int af2, int af3, int af4, int af5, int af6, int af7, int af8, int af9, int ae1, int ae2, int ae3, int ae4, int ae5, int ae6, int ae7, int ae8){
         NormalQuery(af1,af2,af3,af4,af5,af6,af7,af8,af9,ae1,ae2,ae3,ae4,ae5,ae6,ae7,ae8);
         ViewsQuery(af1,af2,af3,af4,af5,af6,af7,af8,af9,ae1,ae2,ae3,ae4,ae5,ae6,ae7,ae8);
         StoredProcedureQuery(af1,af2,af3,af4,af5,af6,af7,af8,af9,ae1,ae2,ae3,ae4,ae5,ae6,ae7,ae8);
-        IndexQuery(af1,af2,af3,af4,af5,af6,af7,af8,af9,ae1,ae2,ae3,ae4,ae5,ae6,ae7,ae8);
+        HeuristicsQuery(af1,af2,af3,af4,af5,af6,af7,af8,af9,ae1,ae2,ae3,ae4,ae5,ae6,ae7,ae8);
     }
     
     public void NormalQuery(int af1, int af2, int af3, int af4, int af5, int af6, int af7, int af8, int af9, int ae1, int ae2, int ae3, int ae4, int ae5, int ae6, int ae7, int ae8){
@@ -46,6 +45,35 @@ public class Query5{
     }                                                          
 
     public void HeuristicsQuery(int af1, int af2, int af3, int af4, int af5, int af6, int af7, int af8, int af9, int ae1, int ae2, int ae3, int ae4, int ae5, int ae6, int ae7, int ae8) {
+        heuristicsQuery = "select id\n"
+                            +"from hpq_mem\n"
+                            +"where (occup LIKE '%fish%' OR occup LIKE '%isda%') and\n"
+                            +"    id in \n"
+                            +"    (select id\n"
+                            +"     from   hpq_hh\n"
+                            +"where naquaequip >=2 ";
+        if(af1 == 1) heuristicsQuery +=" AND h.fishpond = 1";
+        if(af2 == 1) heuristicsQuery +=" AND h.fishpen = 1";
+        if(af3 == 1) heuristicsQuery +=" AND h.fishcage = 1";
+        if(af4 == 1) heuristicsQuery +=" AND h.seaweedfarm = 1";
+        if(af5 == 1)  heuristicsQuery+=" AND h.oysterfarm = 1";
+        if(af6 == 1) heuristicsQuery +=" AND h.musselfarm = 1";
+        if(af7 == 1) heuristicsQuery +=" AND h.fishtank = 1";
+        if(af8 == 1) heuristicsQuery +=" AND h.hatchery = 1";
+        if(af9 == 1) heuristicsQuery +=" AND h.aquafarm_o = 1";
+        heuristicsQuery += "and naquani >= 2\nid in"
+                        + "id in \n"
+                        + "(select hpq_hh_id\n"
+                        + " from hpq_aquaequip\n";
+        if(ae1 == 1) heuristicsQuery +=" AND ae.aquaequiptype = 1";
+        if(ae2 == 1) heuristicsQuery +=" AND ae.aquaequiptype = 2";
+        if(ae3 == 1) heuristicsQuery +=" AND ae.aquaequiptype = 3";
+        if(ae4 == 1) heuristicsQuery +=" AND ae.aquaequiptype = 4";
+        if(ae5 == 1) heuristicsQuery +=" AND ae.aquaequiptype = 5";
+        if(ae6 == 1) heuristicsQuery +=" AND ae.aquaequiptype = 6";
+        if(ae7 == 1) heuristicsQuery +=" AND ae.aquaequiptype = 7";
+        if(ae8 == 1) heuristicsQuery +=" AND ae.aquaequiptype = 8";
+        heuristicsQuery += ")\n);";
     }
 
     public void IndexQuery(int af1, int af2, int af3, int af4, int af5, int af6, int af7, int af8, int af9, int ae1, int ae2, int ae3, int ae4, int ae5, int ae6, int ae7, int ae8) {
@@ -178,8 +206,6 @@ public class Query5{
         return indexSql;
     }
       
-      
-   
 
     public void ViewsQuery(int af1, int af2, int af3, int af4, int af5, int af6, int af7, int af8, int af9, int ae1, int ae2, int ae3, int ae4, int ae5, int ae6, int ae7, int ae8) {
         String create, create2 , create3, query, drop1, drop2, drop3;
@@ -237,6 +263,10 @@ public class Query5{
 
     public String getNormalQuery() {
         return normalQuery;
+    }
+
+    public String getIndexQuery() {
+        return indexSql;
     }
 
     public String getHeuristicsQuery() {
