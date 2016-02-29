@@ -29,21 +29,24 @@ public class Query2 {
         StoredProcedureQuery(c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11, v1, v2,v3,v4,v5,v6,v7,v8,v9,v10,v11);  
     }
     
-    public void NormalQuery(int c1,int c2, int c3,int c4, int c5 , int c6, int c7, int c8,  int c9, int c10, int c11, int v1, int v2, int v3, int v4, int v5, int v6, int v7, int v8,int v9, int v10, int v11){
-        normalQuery = "SELECT zone, sum(prog_slp), sum(prog_fudforsch), sum(prog_fudforwrk), sum(prog_cshforwrk), sum(prog_spisc)\n" +
-                        ", sum(prog_cct), sum(prog_arcdp), sum(prog_cbep), sum(prog_phiheal_ofw), sum(prog_phiheal_empl), sum(prog_phiheal_indiv)\n" +
-                        ", sum(prog_phiheal_spon), sum(prog_phiheal_life)\n" +
-                        "FROM hpq_hh\n" +"GROUP BY zone\n" +"HAVING zone IS NOT NULL";
-                      
-        if(c1 == 1) normalQuery +=" AND sum(calam1_hwmny) > "+ v1;if(c9 == 1) normalQuery +=" AND sum(calam9_hwmny) > "+ v9;
-        if(c2 == 1) normalQuery +=" AND sum(calam2_hwmny) > "+ v2;if(c10 == 1) normalQuery +=" AND sum(calam10_hwmny) > "+ v10;
-        if(c3 == 1) normalQuery +=" AND sum(calam3_hwmny) > "+ v3;if(c11 == 1) normalQuery +=" AND sum(calam11_hwmny) > "+ v11;
-        if(c4 == 1) normalQuery +=" AND sum(calam4_hwmny) > "+ v4;
-        if(c5 == 1) normalQuery +=" AND sum(calam5_hwmny) > "+ v5;
-        if(c6 == 1) normalQuery +=" AND sum(calam6_hwmny) > "+ v6;
-        if(c7 == 1) normalQuery +=" AND sum(calam7_hwmny) > "+ v7;
-        if(c8 == 1) normalQuery +=" AND sum(calam8_hwmny) > "+ v8;
-    }                                                          
+    public void HeuristicsQuery(int c1,int c2, int c3,int c4, int c5 , int c6, int c7, int c8,  int c9, int c10, int c11, int v1, int v2, int v3, int v4, int v5, int v6, int v7, int v8,int v9, int v10, int v11) {
+        heuristicsQuery = "select zone, sum(prog_slp), sum(prog_fudforsch), sum(prog_fudforwrk), sum(prog_cshforwrk), sum(prog_spisc)"
+                            +", sum(prog_cct), sum(prog_arcdp), sum(prog_cbep), sum(prog_phiheal_ofw), sum(prog_phiheal_empl), sum(prog_phiheal_indiv)\n"
+                            +", sum(prog_phiheal_spon), sum(prog_phiheal_life)\n"
+                            +"from (select zone, prog_slp, prog_fudforsch, prog_fudforwrk, prog_cshforwrk, prog_spisc, prog_cct, prog_arcdp, prog_cbep,\n"
+                            +"            prog_phiheal_ofw, prog_phiheal_empl, prog_phiheal_indiv, prog_phiheal_spon, prog_phiheal_life, calam1_hwmny, calam2_hwmny,\n"
+                            +"            calam3_hwmny, calam4_hwmny, calam5_hwmny, calam6_hwmny, calam7_hwmny, calam8_hwmny, calam9_hwmny, calam10_hwmny, calam11_hwmny\n"
+                            +"    from hpq_hh) temp\n"
+                            +"group by zone\n having sum(calam1_hwmny) > " + 0;
+        if(c1 == 1) heuristicsQuery +=" AND sum(calam1_hwmny) > "+ v1;if(c9 == 1) heuristicsQuery +=" AND sum(calam9_hwmny) > "+ v9;
+        if(c2 == 1) heuristicsQuery +=" AND sum(calam2_hwmny) > "+ v2;if(c10 == 1) heuristicsQuery +=" AND sum(calam10_hwmny) > "+ v10;
+        if(c3 == 1) heuristicsQuery +=" AND sum(calam3_hwmny) > "+ v3;if(c11 == 1) heuristicsQuery +=" AND sum(calam11_hwmny) > "+ v11;
+        if(c4 == 1) heuristicsQuery +=" AND sum(calam4_hwmny) > "+ v4;
+        if(c5 == 1) heuristicsQuery +=" AND sum(calam5_hwmny) > "+ v5;
+        if(c6 == 1) heuristicsQuery +=" AND sum(calam6_hwmny) > "+ v6;
+        if(c7 == 1) heuristicsQuery +=" AND sum(calam7_hwmny) > "+ v7;
+        if(c8 == 1) heuristicsQuery +=" AND sum(calam8_hwmny) > "+ v8;
+    }                                                   
 
     public void HeuristicsQuery(int c1,int c2, int c3,int c4, int c5 , int c6, int c7, int c8,  int c9, int c10, int c11, int v1, int v2, int v3, int v4, int v5, int v6, int v7, int v8,int v9, int v10, int v11) {
     }

@@ -57,23 +57,23 @@ public class Query1{
     
     
     public void HeuristicsQuery(int sch_type, int sex, int sss_ind) {
-		heuristicsQuery = "SELECT id, memno, occup, sch_type, indust, jstatus, educal, sex, sss_ind\n"
-						  +"from( SELECT id, memno, occup, sch_type, indust, jstatus, educal, sex, sss_ind\n"
-						  +"from hpq_mem\n"	
-						  +"where occup is not null and jstatus = 2\n";
+        heuristicsQuery = "SELECT id, memno, occup, sch_type, indust, jstatus, educal, sex, sss_ind\n"
+                          +"from( SELECT id, memno, occup, sch_type, indust, jstatus, educal, sex, sss_ind\n"
+                          +"from hpq_mem\n" 
+                          +"where occup is not null and jstatus = 2\n";
 
-		if(sch_type == 1)  heuristicsQuery +="and sch_type = 1 ";
-        else if(sch_type == 2)  heuristicsQuery +="and sch_type = 2 ";
-        else if(sch_type == 3)  heuristicsQuery +="and (sch_type = 1 OR sch_type = 2) ";
+        if(sch_type == 1)  heuristicsQuery +=" and sch_type = 1";
+        else if(sch_type == 2)  heuristicsQuery +=" and sch_type = 2";
+        else if(sch_type == 3)  heuristicsQuery +=" and (sch_type = 1 OR sch_type = 2)";
         
-        if(sss_ind == 1)normalQuery +=" AND sss_ind = 1 ) temp\n";
+        if(sss_ind == 1) heuristicsQuery +=" AND sss_ind = 1 ) temp\n";
         else if(sss_ind == 2)  heuristicsQuery +=" AND sss_ind = 2 ) temp\n";
         else if(sss_ind == 3)  heuristicsQuery +=" AND sss_ind = 3 ) temp\n";
         else if(sss_ind == 4)  heuristicsQuery+=" AND sss_ind = 4 ) temp\n";
-	
-		if(sex == 1) heuristicsQuery +="Where sex = 1 ";
-        else if(sex == 2)  heuristicsQuery +="Where sex = 2 ";
-        else if(sex == 3)  heuristicsQuery +="Where (sex = 1 OR sex = 2)";
+    
+        if(sex == 1) heuristicsQuery +="Where sex = 1;";
+        else if(sex == 2)  heuristicsQuery +="Where sex = 2;";
+        else if(sex == 3)  heuristicsQuery +="Where (sex = 1 OR sex = 2);";
     }
 
     public void ViewsQuery(int sch_type, int sex, int sss_ind) {
