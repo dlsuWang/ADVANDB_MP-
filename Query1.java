@@ -14,13 +14,15 @@ import java.util.*;
  */
 public class Query1{
     
-    private String normalQuery, heuristicsQuery, indexQuery, storedProcedureQuery;
-    private ArrayList<String> execQuery = new ArrayList<String>();
-    private String append;
+    private String normalQuery, heuristicsQuery, indexSql, storedProcedureQuery;
+    private ArrayList<String> viewQuery = new ArrayList<String>();
+    private ArrayList<String> indexQuery = new ArrayList<String>();
+ private String append;
     
     public Query1(int sch_type, int sex, int sss_ind){
         NormalQuery(sch_type,sex,sss_ind);
         ViewsQuery(sch_type,sex,sss_ind);
+        IndexQuery(sch_type,sex,sss_ind);
     }
     
     public void NormalQuery(int sch_type, int sex, int sss_ind){
@@ -41,10 +43,85 @@ public class Query1{
         else if(sss_ind == 4) normalQuery +=" AND sss_ind = 4 ";
     }
 
-    public void HeuristicsQuery(int sch_type, int sex, int sss_ind) {
-    }
+    public void IndexQuery(int sch_type, int sex, int sss_ind){
+        
+        ArrayList list = new ArrayList<Integer>();
+        list.add(sch_type);
+        list.add(sex);
+        list.add(sss_ind);
+        
+        
+        boolean useIndex = false;
+        
+        for(int a=0; a < list.size(); a++)
+        {
+            if((int)list.get(a) == 1)
+            {
+                useIndex = true;
+                break;
+            }
+        }
+        
+        if(useIndex)
+        {
+            indexSql = "Create Index indexName on hpq_mem(";
+            
+            boolean isFirst = true;
+            
+            for(int a=0; a < list.size(); a++)
+            {
+                if((int)list.get(a) == 1 && isFirst)
+                {
+                    isFirst = false;
+                    
+                    indexSql = indexFunction(indexSql, a+1);
+                }
+                else if((int)list.get(a) == 1 && !isFirst)
+                {
+                    indexSql = indexSql + ", ";
+                    indexSql = indexFunction(indexSql, a+1);
+                }
+            }
+            
+            
+             indexSql = indexSql + ");"; 
+            
+        }
+        else
+        {
+            indexSql = "Create Index indexName on hpq_mem(id);";
+        }
 
-    public void IndexQuery(int sch_type, int sex, int sss_ind) {
+        indexQuery.add(indexSql);
+        
+        indexQuery.add(normalQuery);
+        
+        String drop = "Alter Table hpq_mem Drop Index indexName;";
+        
+        indexQuery.add(drop);
+    }
+    
+    public String indexFunction(String indexSql, int column){
+        
+        switch(column){
+            case 1:
+                indexSql = indexSql + "sch_type";
+            break;
+            
+            case 2:
+                indexSql = indexSql + "sex";
+            break;
+            
+            case 3:
+                indexSql = indexSql + "sss_ind";
+            
+        }
+        
+        return indexSql;
+    }
+    
+    
+    public void HeuristicsQuery(int sch_type, int sex, int sss_ind) {
     }
 
     public void ViewsQuery(int sch_type, int sex, int sss_ind) {
@@ -73,9 +150,9 @@ public class Query1{
         query +=";\n"; 
         drop = "DROP VIEW v_occup;";
         
-        execQuery.add(create);
-        execQuery.add(query);
-        execQuery.add(drop);
+        viewQuery.add(create);
+        viewQuery.add(query);
+        viewQuery.add(drop);
     }
 
     public void StoredProcedureQuery(int sch_type, int sex, int sss_ind) {
@@ -83,10 +160,6 @@ public class Query1{
 
     public String getNormalQuery() {
         return normalQuery;
-    }
-
-    public String getIndexQuery() {
-        return indexQuery;
     }
 
     public String getHeuristicsQuery() {
@@ -97,8 +170,16 @@ public class Query1{
         return storedProcedureQuery;
     }
 
-    public ArrayList<String> getQueryWithCreateDropFunction() {
-        return execQuery;
+    public ArrayList<String> getQueryWithCreateDropFunction(String keyword) {
+        
+        if(keyword.equals("view"))
+        {
+            return viewQuery;
+        }
+        else
+        {
+            return indexQuery;
+        }   
     }
     
 }
