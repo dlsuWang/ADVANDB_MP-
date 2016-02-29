@@ -222,17 +222,10 @@ public class Query2 {
         
         if(keyword.equals("view"))
         {
-            System.out.println(viewQuery.size());
-            for(int a=0; a < viewQuery.size(); a++)
-            {
-                
-                System.out.println(viewQuery.get(a));
-            }
             return viewQuery;
         }
         else
         {
-            System.out.println(indexQuery.size());
             return indexQuery;
         }
     }
