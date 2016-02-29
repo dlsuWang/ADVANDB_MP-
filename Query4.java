@@ -47,17 +47,33 @@ public class Query4{
         heuristicsQuery = "select croptype, croptype_o, SUM(crop_vol)\n"
                        +"from hpq_crop\n"
                        +"where hpq_hh_id in\n"
-                       +"(select id"
-                       +"from hpq_hh"
-                       +"where agriequip1_nown = 0 ";
-        if(ae1 == 1) heuristicsQuery +="and agriequip1_nown = 1) ";if(ae9 == 1) heuristicsQuery +="and agriequip9_nown = 1) ";if(ae17 == 1) heuristicsQuery +="and agriequip17_nown = 1) ";
-        if(ae2 == 1) heuristicsQuery +="and agriequip2_nown = 1) ";if(ae10 == 1) heuristicsQuery +="and agriequip10_nown = 1) ";if(ae18 == 1) heuristicsQuery +="and agriequip18_nown = 1) ";
-        if(ae3 == 1) heuristicsQuery +="and agriequip3_nown = 1) ";if(ae11 == 1) heuristicsQuery +="and agriequip11_nown = 1) ";if(sugarcane == 1) heuristicsQuery +="and c.croptype = 1 ";
-        if(ae4 == 1) heuristicsQuery +="and agriequip4_nown = 1) ";if(ae12 == 1) heuristicsQuery +="and agriequip12_nown = 1) ";if(palay == 1) heuristicsQuery +="and c.croptype = 2";
-        if(ae5 == 1) heuristicsQuery +="and agriequip5_nown = 1) ";if(ae13 == 1) heuristicsQuery +="and agriequip13_nown = 1) ";if(corn == 1) heuristicsQuery +="and c.croptype = 3";
-        if(ae6 == 1) heuristicsQuery +="and agriequip6_nown = 1) ";if(ae14 == 1) heuristicsQuery +="and agriequip14_nown = 1) ";if(others == 1) heuristicsQuery +="and c.croptype = 4";
-        if(ae7 == 1) heuristicsQuery +="and agriequip7_nown = 1) ";if(ae15 == 1) heuristicsQuery +="and agriequip15_nown = 1) ";
-        if(ae8 == 1) heuristicsQuery +="and agriequip8_nown = 1) ";if(ae16 == 1) heuristicsQuery +="and agriequip16_nown = 1) ";
+                       +"(select id\n"
+                       +"from hpq_hh\nWhere agriequip1_nown = 0";
+        if(ae1 == 1) heuristicsQuery +=" or agriequip1_nown = 1";
+        if(ae9 == 1) heuristicsQuery +=" and agriequip9_nown = 1";
+        if(ae17 == 1) heuristicsQuery +=" and agriequip17_nown = 1";
+        if(ae2 == 1) heuristicsQuery +=" and agriequip2_nown = 1";
+        if(ae10 == 1) heuristicsQuery +=" and agriequip10_nown = 1";
+        if(ae18 == 1) heuristicsQuery +=" and agriequip18_nown = 1";
+        if(ae3 == 1) heuristicsQuery +=" and agriequip3_nown = 1";
+        if(ae11 == 1) heuristicsQuery +=" and agriequip11_nown = 1";
+        if(ae4 == 1) heuristicsQuery +=" and agriequip4_nown = 1";
+        if(ae12 == 1) heuristicsQuery +=" and agriequip12_nown = 1";
+        if(ae5 == 1) heuristicsQuery +=" and agriequip5_nown = 1";
+        if(ae13 == 1) heuristicsQuery +=" and agriequip13_nown = 1";
+        if(ae6 == 1) heuristicsQuery +=" and agriequip6_nown = 1";
+        if(ae14 == 1) heuristicsQuery +=" and agriequip14_nown = 1";
+        if(ae7 == 1) heuristicsQuery +=" and agriequip7_nown = 1";
+        if(ae15 == 1) heuristicsQuery +=" and agriequip15_nown = 1";
+        if(ae8 == 1) heuristicsQuery +=" and agriequip8_nown = 1";
+        if(ae16 == 1) heuristicsQuery +=" and agriequip16_nown = 1";
+        
+        heuristicsQuery +=") ";
+        
+        if(others == 1) heuristicsQuery +=" and croptype = 4";
+        if(sugarcane == 1) heuristicsQuery +=" and croptype = 1 ";
+        if(corn == 1) heuristicsQuery +=" and croptype = 3";
+        if(palay == 1) heuristicsQuery +=" and croptype = 2";
     }
 
     public void IndexQuery(int ae1, int ae2, int ae3, int ae4, int ae5, int ae6, int ae7, int ae8, int ae9, int ae10, int ae11, int ae12, int ae13, int ae14, int ae15, int ae16, int ae17, int ae18, int sugarcane, int palay, int corn, int others) {
