@@ -45,79 +45,11 @@ public class Query1{
 
     public void IndexQuery(int sch_type, int sex, int sss_ind){
         
-        ArrayList list = new ArrayList<Integer>();
-        list.add(sch_type);
-        list.add(sex);
-        list.add(sss_ind);
-        
-        
-        boolean useIndex = false;
-        
-        for(int a=0; a < list.size(); a++)
-        {
-            if((int)list.get(a) == 1)
-            {
-                useIndex = true;
-                break;
-            }
-        }
-        
-        if(useIndex)
-        {
-            indexSql = "Create Index indexName on hpq_mem(";
-            
-            boolean isFirst = true;
-            
-            for(int a=0; a < list.size(); a++)
-            {
-                if((int)list.get(a) == 1 && isFirst)
-                {
-                    isFirst = false;
-                    
-                    indexSql = indexFunction(indexSql, a+1);
-                }
-                else if((int)list.get(a) == 1 && !isFirst)
-                {
-                    indexSql = indexSql + ", ";
-                    indexSql = indexFunction(indexSql, a+1);
-                }
-            }
-            
-            
-             indexSql = indexSql + ");"; 
-            
-        }
-        else
-        {
-            indexSql = "Create Index indexName on hpq_mem(id);";
-        }
-
-        indexQuery.add(indexSql);
+        indexQuery.add("Create Index indexName on hpq_mem(sch_type, sex, sss_ind);");
         
         indexQuery.add(normalQuery);
         
-        String drop = "Alter Table hpq_mem Drop Index indexName;";
-        
-        indexQuery.add(drop);
-    }
-    
-    public String indexFunction(String indexSql, int column){
-        
-        switch(column){
-            case 1:
-                indexSql = indexSql + "sch_type";
-            break;
-            
-            case 2:
-                indexSql = indexSql + "sex";
-            break;
-            
-            case 3:
-                indexSql = indexSql + "sss_ind";
-            
-        }
-        
-        return indexSql;
+        indexQuery.add("Alter Table hpq_mem Drop Index indexName;");
     }
     
     
