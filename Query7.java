@@ -13,14 +13,16 @@ import java.util.ArrayList;
  * @author Nikko
  */
 public class Query7 {
-    private String normalQuery, heuristicsQuery, indexQuery, storedProcedureQuery;
-    private ArrayList<String> execQuery = new ArrayList<String>();
+    private String normalQuery, heuristicsQuery, indexSql, storedProcedureQuery;
+    private ArrayList<String> indexQuery = new ArrayList<String>();
+    private ArrayList<String> viewQuery = new ArrayList<String>();
     private ArrayList<String> spQuery = new ArrayList<String>();
     private String append;
     
     public Query7(int ae1, int ae2, int ae3, int ae4, int ae5, int ae6, int ae7, int ae8, int amount){
         NormalQuery(ae1,ae2,ae3,ae4,ae5,ae6,ae7,ae8, amount);
         ViewsQuery(ae1,ae2,ae3,ae4,ae5,ae6,ae7,ae8, amount);
+        IndexQuery(ae1,ae2,ae3,ae4,ae5,ae6,ae7,ae8, amount);
         StoredProcedureQuery(ae1,ae2,ae3,ae4,ae5,ae6,ae7,ae8, amount);
     }
     
@@ -44,6 +46,47 @@ public class Query7 {
     }
 
     public void IndexQuery(int ae1, int ae2, int ae3, int ae4, int ae5, int ae6, int ae7, int ae8, int amount) {
+        
+        ArrayList list = new ArrayList<Integer>();
+        list.add(ae1);
+        list.add(ae2);
+        list.add(ae3);
+        list.add(ae4);
+        list.add(ae5);
+        list.add(ae6);
+        list.add(ae7);
+        list.add(ae8);
+        
+         boolean useIndex = false;
+        
+        for(int a=0; a < list.size(); a++)
+        {
+            if((int)list.get(a) == 1)
+            {
+                useIndex = true;
+                break;
+            }
+        }
+
+        if(useIndex)
+        {
+            indexSql = "Create Index indexOne on hpq_aquaequip(hpq_hh_id, aquaequiptype);";
+        }
+        else
+        {
+            indexSql = "Create Index indexOne on hpq_aquaequip(hpq_hh_id);";
+        }
+        
+        indexQuery.add(indexSql);
+        indexQuery.add("Create Index indexTwo on hpq_aquani(hpq_hh_id);");
+        indexQuery.add("Create Index indexThree on hpq_death(hpq_hh_id);");
+        indexQuery.add("Create Index indexFour on hpq_hh(id);");
+        indexQuery.add(normalQuery);
+        indexQuery.add("Alter Table hpq_aquaequip Drop Index indexOne;");
+        indexQuery.add("Alter Table hpq_aquani Drop Index indexTwo");
+        indexQuery.add("Alter Table hpq_death Drop Index indexThree");
+        indexQuery.add("Alter Table hpq_hh Drop Index indexFour");
+        
     }
 
     public void ViewsQuery(int ae1, int ae2, int ae3, int ae4, int ae5, int ae6, int ae7, int ae8, int amount) {
@@ -80,13 +123,13 @@ public class Query7 {
         drop2 = "DROP VIEW dview;";
         drop3 = "DROP VIEW hview;";
         
-        execQuery.add(create);
-        execQuery.add(create2);
-        execQuery.add(create3);
-        execQuery.add(query);
-        execQuery.add(drop1);
-        execQuery.add(drop2);
-        execQuery.add(drop3); 
+        viewQuery.add(create);
+        viewQuery.add(create2);
+        viewQuery.add(create3);
+        viewQuery.add(query);
+        viewQuery.add(drop1);
+        viewQuery.add(drop2);
+        viewQuery.add(drop3); 
     }
 
     public void StoredProcedureQuery(int ae1, int ae2, int ae3, int ae4, int ae5, int ae6, int ae7, int ae8, int amount) {
@@ -105,10 +148,6 @@ public class Query7 {
         return normalQuery;
     }
 
-    public String getIndexQuery() {
-        return indexQuery;
-    }
-
     public String getHeuristicsQuery() {
         return heuristicsQuery;
     }
@@ -117,8 +156,17 @@ public class Query7 {
         return spQuery;
     }
 
-    public ArrayList<String> getQueryWithCreateDropFunction() {
-        return execQuery;
+    public ArrayList<String> getQueryWithCreateDropFunction(String keyword) {
+    
+        if(keyword.equals("view"))
+        {
+            return viewQuery;
+        }
+        else
+        {
+            return indexQuery;
+        }
+        
     }
 
 }
