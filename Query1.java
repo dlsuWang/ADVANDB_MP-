@@ -17,12 +17,14 @@ public class Query1{
     private String normalQuery, heuristicsQuery, indexSql, storedProcedureQuery;
     private ArrayList<String> viewQuery = new ArrayList<String>();
     private ArrayList<String> indexQuery = new ArrayList<String>();
+    private ArrayList<String> spQuery = new ArrayList<String>();
  private String append;
     
     public Query1(int sch_type, int sex, int sss_ind){
         NormalQuery(sch_type,sex,sss_ind);
         ViewsQuery(sch_type,sex,sss_ind);
         IndexQuery(sch_type,sex,sss_ind);
+        StoredProcedureQuery(sch_type,sex,sss_ind);
     }
     
     public void NormalQuery(int sch_type, int sex, int sss_ind){
@@ -88,6 +90,18 @@ public class Query1{
     }
 
     public void StoredProcedureQuery(int sch_type, int sex, int sss_ind) {
+	
+	NormalQuery(sch_type,sex,sss_ind);
+	spQuery.add("DROP PROCEDURE IF EXISTS getSPQuery1;");
+        spQuery.add("DELIMITER $$ "
+                + "CREATE PROCEDURE getSPQuery1()"
+                + "BEGIN "
+                + getNormalQuery()
+                + "END "
+                + "DELIMITER ;");
+        spQuery.add("CALL getSPQuery1();");
+	
+	
     }
 
     public String getNormalQuery() {
@@ -98,8 +112,8 @@ public class Query1{
         return heuristicsQuery;
     }
 
-    public String getStoredProcedureQuery() {
-        return storedProcedureQuery;
+    public ArrayList<String> getStoredProcedureQuery() {
+        return spQuery;
     }
 
     public ArrayList<String> getQueryWithCreateDropFunction(String keyword) {

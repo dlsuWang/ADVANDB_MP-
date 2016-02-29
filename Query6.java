@@ -16,11 +16,13 @@ public class Query6 {
     
     private String normalQuery, heuristicsQuery, indexQuery, storedProcedureQuery;
     private ArrayList<String> execQuery = new ArrayList<String>();
+    private ArrayList<String> spQuery = new ArrayList<String>();
     private String append;
     
     public Query6(int sugarcane, int palay, int corn, int others){
         NormalQuery(sugarcane,palay,corn,others);
         ViewsQuery(sugarcane,palay,corn,others);
+        StoredProcedureQuery(sugarcane,palay,corn,others);
     }
     
     public void NormalQuery(int sugarcane, int palay, int corn, int others){
@@ -74,6 +76,15 @@ public class Query6 {
     }
 
     public void StoredProcedureQuery(int sugarcane, int palay, int corn, int others) {
+        NormalQuery(sugarcane,palay,corn,others);
+        spQuery.add("DROP PROCEDURE IF EXISTS getSPQuery6;");
+        spQuery.add("DELIMITER $$ "
+                + "CREATE PROCEDURE getSPQuery6()"
+                + "BEGIN "
+                + getNormalQuery()
+                + "END "
+                + "DELIMITER ;");
+        spQuery.add("CALL getSPQuery6();");
     }
 
     public String getNormalQuery() {
@@ -88,8 +99,8 @@ public class Query6 {
         return heuristicsQuery;
     }
 
-    public String getStoredProcedureQuery() {
-        return storedProcedureQuery;
+    public ArrayList<String> getStoredProcedureQuery() {
+        return spQuery;
     }
 
     public ArrayList<String> getQueryWithCreateDropFunction() {

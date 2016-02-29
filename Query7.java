@@ -15,11 +15,13 @@ import java.util.ArrayList;
 public class Query7 {
     private String normalQuery, heuristicsQuery, indexQuery, storedProcedureQuery;
     private ArrayList<String> execQuery = new ArrayList<String>();
+    private ArrayList<String> spQuery = new ArrayList<String>();
     private String append;
     
     public Query7(int ae1, int ae2, int ae3, int ae4, int ae5, int ae6, int ae7, int ae8, int amount){
         NormalQuery(ae1,ae2,ae3,ae4,ae5,ae6,ae7,ae8, amount);
         ViewsQuery(ae1,ae2,ae3,ae4,ae5,ae6,ae7,ae8, amount);
+        StoredProcedureQuery(ae1,ae2,ae3,ae4,ae5,ae6,ae7,ae8, amount);
     }
     
     public void NormalQuery(int ae1, int ae2, int ae3, int ae4, int ae5, int ae6, int ae7, int ae8, int amount){
@@ -88,6 +90,15 @@ public class Query7 {
     }
 
     public void StoredProcedureQuery(int ae1, int ae2, int ae3, int ae4, int ae5, int ae6, int ae7, int ae8, int amount) {
+        NormalQuery(ae1,ae2,ae3,ae4,ae5,ae6,ae7,ae8, amount);
+        spQuery.add("DROP PROCEDURE IF EXISTS getSPQuery7;");
+        spQuery.add("DELIMITER $$ "
+                + "CREATE PROCEDURE getSPQuery7()"
+                + "BEGIN "
+                + getNormalQuery()
+                + "END "
+                + "DELIMITER ;");
+        spQuery.add("CALL getSPQuery7();");
     }
 
     public String getNormalQuery() {
@@ -102,8 +113,8 @@ public class Query7 {
         return heuristicsQuery;
     }
 
-    public String getStoredProcedureQuery() {
-        return storedProcedureQuery;
+    public ArrayList<String> getStoredProcedureQuery() {
+        return spQuery;
     }
 
     public ArrayList<String> getQueryWithCreateDropFunction() {

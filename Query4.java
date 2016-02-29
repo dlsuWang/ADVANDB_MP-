@@ -16,11 +16,14 @@ public class Query4{
     
     private String normalQuery, heuristicsQuery, indexQuery, storedProcedureQuery;
     private ArrayList<String> execQuery = new ArrayList<String>();
+    private ArrayList<String> spQuery = new ArrayList<String>();
+    
     private String append;
     
     public Query4(int ae1, int ae2, int ae3, int ae4, int ae5, int ae6, int ae7, int ae8, int ae9, int ae10, int ae11, int ae12, int ae13, int ae14, int ae15, int ae16, int ae17, int ae18, int sugarcane, int palay, int corn, int others){
         NormalQuery(ae1,ae2,ae3,ae4,ae5,ae6,ae7,ae8,ae9,ae10,ae11,ae12,ae13,ae14,ae15,ae16,ae17,ae18,sugarcane,palay,corn,others);
         ViewsQuery(ae1,ae2,ae3,ae4,ae5,ae6,ae7,ae8,ae9,ae10,ae11,ae12,ae13,ae14,ae15,ae16,ae17,ae18,sugarcane,palay,corn,others);
+        StoredProcedureQuery(ae1,ae2,ae3,ae4,ae5,ae6,ae7,ae8,ae9,ae10,ae11,ae12,ae13,ae14,ae15,ae16,ae17,ae18,sugarcane,palay,corn,others);
     }
     
     public void NormalQuery(int ae1, int ae2, int ae3, int ae4, int ae5, int ae6, int ae7, int ae8, int ae9, int ae10, int ae11, int ae12, int ae13, int ae14, int ae15, int ae16, int ae17, int ae18, int sugarcane, int palay, int corn, int others){
@@ -79,6 +82,15 @@ public class Query4{
     }
 
     public void StoredProcedureQuery(int ae1, int ae2, int ae3, int ae4, int ae5, int ae6, int ae7, int ae8, int ae9, int ae10, int ae11, int ae12, int ae13, int ae14, int ae15, int ae16, int ae17, int ae18, int sugarcane, int palay, int corn, int others) {
+        NormalQuery(ae1,ae2,ae3,ae4,ae5,ae6,ae7,ae8,ae9,ae10,ae11,ae12,ae13,ae14,ae15,ae16,ae17,ae18,sugarcane,palay,corn,others);
+        spQuery.add("DROP PROCEDURE IF EXISTS getSPQuery4;");
+        spQuery.add("DELIMITER $$ "
+                + "CREATE PROCEDURE getSPQuery4()"
+                + "BEGIN "
+                + getNormalQuery()
+                + "END "
+                + "DELIMITER ;");
+        spQuery.add("CALL getSPQuery4();");
     }
 
     public String getNormalQuery() {
@@ -93,8 +105,8 @@ public class Query4{
         return heuristicsQuery;
     }
 
-    public String getStoredProcedureQuery() {
-        return storedProcedureQuery;
+    public ArrayList<String> getStoredProcedureQuery() {
+        return spQuery;
     }
 
     public ArrayList<String> getQueryWithCreateDropFunction() {
