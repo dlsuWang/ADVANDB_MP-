@@ -14,14 +14,16 @@ import java.util.ArrayList;
  */
 public class Query6 {
     
-    private String normalQuery, heuristicsQuery, indexQuery, storedProcedureQuery;
-    private ArrayList<String> execQuery = new ArrayList<String>();
+    private String normalQuery, heuristicsQuery, indexSql, storedProcedureQuery;
+    private ArrayList<String> indexQuery = new ArrayList<String>();
+    private ArrayList<String> viewQuery = new ArrayList<String>();
     private ArrayList<String> spQuery = new ArrayList<String>();
     private String append;
     
     public Query6(int sugarcane, int palay, int corn, int others){
         NormalQuery(sugarcane,palay,corn,others);
         ViewsQuery(sugarcane,palay,corn,others);
+        IndexQuery(sugarcane,palay,corn,others);
         StoredProcedureQuery(sugarcane,palay,corn,others);
     }
     
@@ -42,6 +44,15 @@ public class Query6 {
     }
 
     public void IndexQuery(int sugarcane, int palay, int corn, int others) {
+        
+        indexQuery.add("Create Index indexOne on hpq_crop(hpq_hh_id, croptype);");
+        indexQuery.add("Create Index indexTwo on hpq_mem(id, educal, reln);");
+        indexQuery.add("Create Index indexThree on hpq_hh(id, water_dist, water);");
+        indexQuery.add(normalQuery);
+        indexQuery.add("Alter Table hpq_crop Drop Index indexOne;");
+        indexQuery.add("Alter Table hpq_mem Drop Index indexTwo;");
+        indexQuery.add("Alter Table hpq_hh Drop Index indexThree;");
+         
     }
 
     public void ViewsQuery(int sugarcane, int palay, int corn, int others) {
@@ -67,11 +78,11 @@ public class Query6 {
         drop1 = "DROP VIEW mview;\n";
         drop2 = "DROP VIEW hview;";
         
-        execQuery.add(create);
-        execQuery.add(create2);
-        execQuery.add(query);
-        execQuery.add(drop1);
-        execQuery.add(drop2);
+        viewQuery.add(create);
+        viewQuery.add(create2);
+        viewQuery.add(query);
+        viewQuery.add(drop1);
+        viewQuery.add(drop2);
         
     }
 
@@ -91,10 +102,6 @@ public class Query6 {
         return normalQuery;
     }
 
-    public String getIndexQuery() {
-        return indexQuery;
-    }
-
     public String getHeuristicsQuery() {
         return heuristicsQuery;
     }
@@ -103,8 +110,17 @@ public class Query6 {
         return spQuery;
     }
 
-    public ArrayList<String> getQueryWithCreateDropFunction() {
-        return execQuery;
+    public ArrayList<String> getQueryWithCreateDropFunction(String keyword) {
+    
+     if(keyword.equals("view"))
+        {
+            return viewQuery;
+        }
+        else
+        {
+            return indexQuery;
+        }
+    
     }
     
 }
